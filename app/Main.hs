@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Language.IMP
 
 main :: IO ()
-main = someFunc
+main = undefined
