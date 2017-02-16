@@ -53,17 +53,17 @@ P.TokenParser
     , P.integer = integer
     } = tokenParser
 
-binop :: String -> (String -> a -> a -> a) -> Assoc -> Operator String u Identity a
-binop name mk = Infix ((reservedOp name <|> reserved name) *> pure (mk name))
+binop :: String -> (a -> a -> a) -> Assoc -> Operator String u Identity a
+binop name fn = Infix ((reservedOp name <|> reserved name) *> pure fn)
 
-prefix :: String -> (String -> a -> a) -> Operator String u Identity a
-prefix name mk = Prefix ((reservedOp name <|> reserved name) *> pure (mk name))
+prefix :: String -> (a -> a) -> Operator String u Identity a
+prefix name fn = Prefix ((reservedOp name <|> reserved name) *> pure fn)
 
 
 aexp :: Parser AExp
 aexp = buildExpressionParser
-    [ [binop "*" ABinop AssocLeft]
-    , [binop "+" ABinop AssocLeft, binop "-" ABinop AssocLeft]
+    [ [binop "*" Mult AssocLeft]
+    , [binop "+" Add AssocLeft, binop "-" Sub AssocLeft]
     ]
     aterm
 
@@ -75,9 +75,9 @@ aterm = parens aexp
 
 bexp :: Parser BExp
 bexp = buildExpressionParser
-    [ [prefix "not" BPrefix]
-    , [binop "&&" BBinop AssocLeft]
-    , [binop "||" BBinop AssocLeft]
+    [ [prefix "not" Not]
+    , [binop "&&" And AssocLeft]
+    , [binop "||" Or AssocLeft]
     ]
     bterm
 
@@ -93,17 +93,17 @@ true = reserved "true" *> pure (B True)
 false :: Parser BExp
 false = reserved "false" *> pure (B False)
 
-compop :: String -> (Integer -> Integer -> Bool) -> Parser (AExp -> AExp -> BExp)
-compop name fn = reservedOp name *> pure (CompOp name)
+cmpop :: String -> (AExp -> AExp -> BExp) -> Parser (AExp -> AExp -> BExp)
+cmpop name fn = reservedOp name *> pure fn
 
 comparison :: Parser (AExp -> AExp -> BExp)
 comparison =
-    compop "==" (==)
-    <|> compop "/=" (/=)
-    <|> try (compop ">=" (>=))
-    <|> compop ">" (>)
-    <|> try (compop "<=" (<=))
-    <|> compop "<" (<)
+    cmpop "==" Eq
+    <|> cmpop "/=" NEq
+    <|> try (cmpop ">=" GEq)
+    <|> cmpop ">" Gt
+    <|> try (cmpop "<=" LEq)
+    <|> cmpop "<" Lt
 
 
 commands :: Parser Command
