@@ -29,6 +29,8 @@ executable impi
   build-depends:       base
                      , imp
                      , transformers
+                     , mtl
+                     , lens
                      , haskeline
   default-language:    Haskell2010
 

@@ -1,6 +1,11 @@
 module Language.IMP
-    ( evaluate
-    , evaluateWithEnv
+    ( Env, emptyEnv
+    -- primitive parsing functions
+    , parseAExp, parseBExp, parseCommand
+    -- primitive evaluation functions
+    , evalAExp , evalBExp , evalCommand
+    -- string -> eval functions
+    , evaluate, evaluateWithEnv
     ) where
 
 import AST
@@ -8,11 +13,9 @@ import Parser
 import Evaluator
 
 import Control.Arrow
-import Data.Map (fromList, toList)
 
-evaluate :: String -> Either String [(String, Integer)]
-evaluate = evaluateWithEnv []
+evaluate :: String -> Either String Env
+evaluate = evaluateWithEnv emptyEnv
 
-evaluateWithEnv :: [(String, Integer)] -> String -> Either String [(String, Integer)]
-evaluateWithEnv env str =
-    right (toList . eval (fromList env)) (left show (readCommand str))
+evaluateWithEnv :: Env -> String -> Either String Env
+evaluateWithEnv env = right (evalCommand env) . parseCommand

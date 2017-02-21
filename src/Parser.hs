@@ -1,10 +1,13 @@
 module Parser
-    ( readCommand
+    ( parseAExp
+    , parseBExp
+    , parseCommand
     ) where
 
 import AST
 
 import Control.Applicative hiding ((<|>))
+import Control.Arrow
 
 import Data.Functor.Identity (Identity)
 
@@ -137,11 +140,11 @@ if' = do
     pure $ If b c1 c2
 
 
-readAExp :: String -> Either ParseError AExp
-readAExp = parse (whiteSpace *> aexp <* eof) "AExp"
+parseAExp :: String -> Either String AExp
+parseAExp = left show . parse (whiteSpace *> aexp <* eof) "AExp"
 
-readBExp :: String -> Either ParseError BExp
-readBExp = parse (whiteSpace *> bexp <* eof) "BExp"
+parseBExp :: String -> Either String BExp
+parseBExp = left show . parse (whiteSpace *> bexp <* eof) "BExp"
 
-readCommand :: String -> Either ParseError Command
-readCommand = parse (whiteSpace *> commands <* eof) "imp"
+parseCommand :: String -> Either String Command
+parseCommand = left show . parse (whiteSpace *> commands <* eof) "imp"
