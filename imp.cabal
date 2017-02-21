@@ -30,7 +30,6 @@ executable impi
                      , imp
                      , transformers
                      , mtl
-                     , lens
                      , haskeline
   default-language:    Haskell2010
 
