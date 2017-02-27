@@ -10,13 +10,6 @@ import Control.Monad.State
 import Control.Monad.Trans.Class
 import System.Console.Haskeline
 
-until_ :: Monad m => (a -> Bool) -> m (Maybe a) -> (a -> m ()) -> m ()
-until_ pred prompt action = do
-    result <- prompt
-    case mfilter (not . pred) result of
-      Nothing -> pure ()
-      Just result' -> action result' >> until_ pred prompt action
-
 type Repl = StateT Env (InputT IO)
 
 replPrint :: String -> Repl ()
