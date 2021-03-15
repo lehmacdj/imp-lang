@@ -10,6 +10,7 @@ import AST
 import Control.Applicative hiding ((<|>))
 import Control.Arrow
 import Data.Functor.Identity (Identity)
+import System.FilePath (dropExtension, takeExtension)
 import Text.Parsec
 import Text.Parsec.Expr
 import Text.Parsec.Language (emptyDef)
@@ -162,6 +163,15 @@ parseCommand = left show . parse (whiteSpace *> commands <* eof) "imp"
 -- resulting command, doesn't attempt to catch IO errors, so throws anything
 -- throwable by reading the file
 parseProgram :: FilePath -> IO (Either String Command)
-parseProgram fp = do
-  contents <- readFile fp
-  pure $ left show . parse (whiteSpace *> commands <* eof) fp $ contents
+parseProgram fp =
+  case takeExtension fp of
+    ".imp" -> do
+      contents <- readFile fp
+      pure
+        . left show
+        . parse (whiteSpace *> commands <* eof) (dropExtension fp)
+        $ contents
+    extension ->
+      pure . Left $
+        "error: imp programs should have extension .imp, but has extension: "
+          ++ extension
