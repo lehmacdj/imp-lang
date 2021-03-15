@@ -1,18 +1,34 @@
 module Language.IMP
-    ( Env, emptyEnv
-    -- primitive parsing functions
-    , parseAExp, parseBExp, parseCommand
-    -- primitive evaluation functions
-    , evalAExp , evalBExp , evalCommand
-    -- string -> eval functions
-    , evaluate, evaluateWithEnv
-    ) where
+  ( -- * essential types
+    Env,
+    emptyEnv,
+
+    -- * primitive parsing functions
+    parseAExp,
+    parseBExp,
+    parseCommand,
+    parseProgram,
+
+    -- * primitive evaluation functions
+    evalAExp,
+    evalBExp,
+    evalCommand,
+
+    -- * string -> eval functions
+    evaluate,
+    evaluateWithEnv,
+
+    -- * misc other thigns
+
+    -- | version of imp that is used
+    impVersion,
+  )
+where
 
 import AST
-import Parser
-import Evaluator
-
 import Control.Arrow
+import Evaluator
+import Parser
 
 evaluate :: String -> Either String Env
 evaluate = evaluateWithEnv emptyEnv

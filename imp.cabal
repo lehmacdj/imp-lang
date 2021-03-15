@@ -1,5 +1,5 @@
 name:                imp
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            An implementation of a small imperative language
 -- description:
 homepage:            https://github.com/lehmacdj/imp-lang#readme
@@ -16,7 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Language.IMP
-  other-modules:       Evaluator, Parser, AST
+  other-modules:       Evaluator, Parser, AST, Paths_imp
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , containers
@@ -31,6 +31,7 @@ executable impi
                      , transformers
                      , mtl
                      , haskeline
+                     , optparse-applicative
   default-language:    Haskell2010
 
 test-suite imp-test
