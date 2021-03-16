@@ -76,7 +76,7 @@ runWithOptions mainFunc = do
   where
     parser =
       info
-        optionsP
+        (optionsP <**> helper)
         ( fullDesc
             <> progDesc "interpreter for imp programming language"
         )
