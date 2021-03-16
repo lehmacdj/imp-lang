@@ -58,7 +58,7 @@ optionsP :: Parser Options
 optionsP =
   flag'
     ShowVersion
-    ( long "version" <> help "display the version of imp this interpreter interprets (git version string, because no spec)"
+    ( long "version" <> help "display the version of imp this interpreter interprets and then quit"
     )
     <|> ( maybe Interactive InterpretFile
             <$> optional
