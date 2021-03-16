@@ -1,0 +1,23 @@
+# Computes the nth fibonacci number reporting the result in the variable result.
+# You can change the initial value to change the number that is computed.
+n := 5;
+
+if n == 0
+then result := 0
+else if n == 1
+then result := 1
+else (
+  i := 2;
+  # i - 2nd fibonacci number at each step
+  r2 := 0;
+  # i - 1st fibonacci number at each step
+  r1 := 1;
+  result := r2 + r1;
+
+  while i <= n do (
+    r2 := r1;
+    r1 := result;
+    result := r2 + r1;
+    i := i + 1
+  )
+)

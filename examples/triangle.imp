@@ -1,0 +1,11 @@
+# Computes the nth triangle number reporting the result in the variable result.
+# You can change the initial value to change the number that is computed.
+n := 5;
+
+i := n;
+result := 0;
+
+while i > 0 do (
+  result := result + i;
+  i := i - 1
+)
