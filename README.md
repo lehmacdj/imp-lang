@@ -28,3 +28,8 @@ with the `.imp` extension. You can do this by running a commandline like
 stack build && stack exec impi -- examples/fibonacci.imp
 ```
 Various examples to try running are present in the examples folder.
+
+See also:
+https://github.com/lehmacdj/talk-how-to-implement-a-programming-langugae-in-10-minute
+For a short tutorial that goes through the development of a language a lot like
+this one.
